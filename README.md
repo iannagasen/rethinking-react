@@ -144,3 +144,61 @@ const App = () => {
 3. Output:
 
 ![LayoutComponents2](readme-snapshots/layout_components_2.png)
+
+---
+
+## Optimization: Instead of Passing Components as Props, we will use them as Children
+
+1. Modify the SplitScreen layout component
+
+```js
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const Pane = styled.div`
+  flex: ${(props) => props.weight};
+`;
+
+export const SplitScreen = ({ children, leftWeight = 1, rightWeight = 1 }) => {
+  // since children is an array
+  // notice that we are using 'left' and not 'Left'
+  // since these are elements, not components
+  const [left, right] = children;
+
+  return (
+    <Container>
+      <Pane weigth={leftWeight}>{left}</Pane>
+      <Pane weigth={rightWeight}>{right}</Pane>
+    </Container>
+  );
+};
+```
+
+2. Modify the driver
+
+```js
+import { SplitScreen } from "./SplitScreen";
+
+const LeftHandComponent = () => {
+  return <h1>Left!</h1>;
+};
+
+const RightHandComponent = () => {
+  return <p>Right!</p>;
+};
+
+const App = () => {
+  return (
+    <SplitScreen
+      leftWeight={1}
+      rightWeight={3}
+    />
+      <LeftHandComponent />
+      <RightHandComponent />
+    <SplitScreen>
+  );
+};
+```
