@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+### LAYOUT COMPONENTS
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- primary concern: arrange other components in the screen
+- Examples: Split Screens, Lists and Items, Modals
 
-## Available Scripts
+## Normally without Layout Components
 
-In the project directory, you can run:
+```react
+  <div styles={...}>
+    <h1>Component Code...</h1>
+  </div>
+```
 
-### `npm start`
+### With Layout Components
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## We separate the actual layout styles into their own component and then simply display the component itself
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## The Idea of Layout Components:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### **our components shouldn't know where they're being displayed**
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Creating Split Screen
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Install Styled Components
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- `npm install styled-components`
 
-### `npm run eject`
+2. Create new file
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**`SplitScreen.js`**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```js
+import styled from "styled-components";
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+const Container = styled.div`
+  display: flex;
+`;
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+const Pane = styled.div`
+  flex: 1;
+`;
 
-## Learn More
+export const SplitScreen = ({ left: Left, right: Right }) => {
+  return (
+    <Container>
+      <Pane>
+        <Left />
+      </Pane>
+      <Pane>
+        <Right />
+      </Pane>
+    </Container>
+  );
+};
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Create the consumer of the `SplitScreen` layout component
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+import { SplitScreen } from "./SplitScreen";
 
-### Code Splitting
+const LeftHandComponent = () => {
+  return <h1>Left!</h1>;
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+const RightHandComponent = () => {
+  return <p>Right!</p>;
+};
 
-### Analyzing the Bundle Size
+const App = () => {
+  return <SplitSCreen left={LeftHandComponent} right={RightHandComponent} />;
+};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. Now run the app from the root directory
+   `npm start`
+   ![LayoutComponents1](readme-snapshots/layout_components_1.png)
