@@ -9,5 +9,12 @@ const RightHandContainer = () => {
 };
 
 export const SplitScreenDriver = () => {
-  return <SplitScreen left={LeftHandContainer} right={RightHandContainer} />;
+  return (
+    <SplitScreen
+      left={LeftHandContainer}
+      right={RightHandContainer}
+      leftWeight={1}
+      rightWeight={3}
+    />
+  );
 };

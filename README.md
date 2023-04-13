@@ -79,3 +79,68 @@ const App = () => {
 4. Now run the app from the root directory
    `npm start`
    ![LayoutComponents1](readme-snapshots/layout_components_1.png)
+
+---
+
+## Creating weighted SplitScreen
+
+1. modify the split screen
+
+```js
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const Pane = styled.div`
+  flex: ${(props) => props.weight};
+`;
+
+export const SplitScreen = ({
+  left: Left, // this is just renaming left to Left
+  right: Right,
+  leftWeight = 1,
+  rightWeight = 1,
+}) => {
+  return (
+    <Container>
+      <Pane weigth={leftWeight}>
+        <Left />
+      </Pane>
+      <Pane weigth={rightWeight}>
+        <Right />
+      </Pane>
+    </Container>
+  );
+};
+```
+
+2. Modify the driver class
+
+```js
+import { SplitScreen } from "./SplitScreen";
+
+const LeftHandComponent = () => {
+  return <h1>Left!</h1>;
+};
+
+const RightHandComponent = () => {
+  return <p>Right!</p>;
+};
+
+const App = () => {
+  return (
+    <SplitSCreen
+      left={LeftHandComponent}
+      right={RightHandComponent}
+      leftWeight={1}
+      rightWeight={3}
+    />
+  );
+};
+```
+
+3. Output:
+
+![LayoutComponents2](readme-snapshots/layout_components_2.png)
